@@ -1,18 +1,23 @@
 package com.dtl.demo.service;
 
-import javax.json.JsonArray;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-@Path("persons")
+@Path("properties")
 public class Resource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public JsonArray message() {
-        return Reader.getPersons();
+    public Response message() {
+	StringBuilder builder = new StringBuilder();
+	builder.append("{");
+	builder.append(String.format("\"%s\": \"%s\",", "os.arch", System.getProperty("os.arch")));
+	builder.append(String.format("\"%s\": \"%s\",", "os.name", System.getProperty("os.name")));
+	builder.append(String.format("\"%s\": \"%s\"", "os.version", System.getProperty("os.version")));
+	builder.append("}");
+        return Response.ok(builder.toString()).build();
     }
-
 }
