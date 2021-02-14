@@ -1,5 +1,6 @@
 package com.dtl.demo.service;
 
+import java.util.stream.Collectors;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -8,20 +9,17 @@ import javax.ws.rs.core.MediaType;
 @Path("properties")
 public class Resource {
 
-    private StringBuilder builder;
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getSystemInfo() {
-        if (builder == null) {
-            builder = new StringBuilder();
-        } else { builder = builder.delete(0, builder.length()); }
-        builder.append("{");
-        builder.append(String.format("\"%s\": \"%s\",", "arch", System.getProperty("os.arch")));
-        builder.append(String.format("\"%s\": \"%s\",", "name", System.getProperty("os.name")));
-        builder.append(String.format("\"%s\": \"%s\"", "version", System.getProperty("os.version")));
-        builder.append("}");
+        String str = System.getProperties()
+                .entrySet()
+                .stream()
+                .map(entry -> "\"" + (String) entry.getKey() + "\""
+                + ": "
+                + "\"" + ((String) entry.getValue()).strip() + "\"" + "\n")
+                .collect(Collectors.joining(","));
 
-        return builder.toString();
+        return String.format("{%s}", str);
     }
 }
