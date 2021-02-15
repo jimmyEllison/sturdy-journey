@@ -15,10 +15,11 @@ public class Resource {
         String str = System.getProperties()
                 .entrySet()
                 .stream()
-                .map(entry -> "\"" + (String) entry.getKey() + "\""
-                + ": "
-                + "\"" + ((String) entry.getValue()).strip() + "\"" + "\n")
-                .collect(Collectors.joining(","));
+                .map(entry -> 
+		String.format("\"%s\": \"%s\"", 
+			(String) entry.getKey(), 
+			((String) entry.getValue()).strip()))
+                .collect(Collectors.joining(",\n"));
 
         return String.format("{%s}", str);
     }
