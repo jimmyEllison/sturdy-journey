@@ -10,5 +10,5 @@
     </httpEndpoint>
 
     <httpDispatcher enableWelcomePage="false"/>
-    <webApplication id="root-context" location="rest-demo.war" contextRoot="/"/>
+    <webApplication id="root-context" location="rest-demo.war" context-root="/"/>
 </server>
