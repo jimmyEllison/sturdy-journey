@@ -1,6 +1,8 @@
 package com.dtl.demo.service;
 
-import java.util.stream.Collectors;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -11,16 +13,11 @@ public class Resource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getSystemInfo() {
-        String str = System.getProperties()
-                .entrySet()
-                .stream()
-                .map(entry -> 
-		String.format("\"%s\": \"%s\"", 
-			(String) entry.getKey(), 
-			((String) entry.getValue()).strip()))
-                .collect(Collectors.joining(",\n"));
-
-        return String.format("{%s}", str);
+    public JsonObject getSystemInfo() {
+        JsonObjectBuilder builder = Json.createObjectBuilder();
+        System.getProperties().entrySet().forEach(entry -> {
+            builder.add((String) entry.getKey(), ((String) entry.getValue()).strip());
+        });
+        return builder.build();
     }
 }
