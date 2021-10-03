@@ -1,7 +1,7 @@
 # Open Liberty toy sample
 
 ### Requirements
-- Java Development Kit version 8 or newer
+- Java Development Kit version 11 or newer
 - Latest version of Maven build tool 
 
 ### Steps to run this project:
